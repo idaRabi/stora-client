@@ -1,6 +1,6 @@
-package ir.sls.stora.exception
+package com.github.idarabi.exception
 
-import ir.sls.stora.exception.StoraExceptionCodes.*
+import com.github.idarabi.exception.StoraExceptionCodes.*
 
 
 class BucketAlreadyExistsException(bucket: String) :

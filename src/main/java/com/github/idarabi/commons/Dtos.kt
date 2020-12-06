@@ -1,10 +1,8 @@
-package commons
+package com.github.idarabi.commons
 
 import java.io.InputStream
 
 private fun nowSeconds() = (System.currentTimeMillis() / 1000)
-
-class BucketMetricsResponse(val bucket: String, val metrics: Metrics)
 
 data class LoginRequest(val username: String, val password: String)
 
@@ -36,12 +34,3 @@ data class BucketResult(val bucket: String,
 data class GetResult(val contentType: String? = null,
                      val inputStream: InputStream,
                      val length: Long? = null)
-
-data class Metrics(var usage: Long = 0,
-                   var download: Long = 0,
-                   var upload: Long = 0,
-                   var numberOfGet: Long = 0,
-                   var numberOfPut: Long = 0,
-                   var trafficQuota: Long = 0,
-                   var numberOfFiles: Long = 0,
-                   var capacity: Long = 0)

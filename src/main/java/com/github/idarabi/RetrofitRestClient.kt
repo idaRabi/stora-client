@@ -1,7 +1,7 @@
-
+package com.github.idarabi
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import commons.*
+import com.github.idarabi.commons.*
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

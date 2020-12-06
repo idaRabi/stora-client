@@ -1,4 +1,4 @@
-package ir.sls.stora.exception
+package com.github.idarabi.exception
 
 
 class AssemblerQueueFullExceptions : StoraException("Assembler queue is full!")
