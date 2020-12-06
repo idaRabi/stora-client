@@ -47,6 +47,7 @@
         </dependency>
     </dependencies>
 
+
     <groupId>com.github.idarabi</groupId>
     <artifactId>stora-client</artifactId>
     <version>1.0-SNAPSHOT</version>
