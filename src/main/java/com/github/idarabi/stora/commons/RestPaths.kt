@@ -12,8 +12,8 @@ class RestPaths {
         const val OBJECT_ID_PATH = "objects/{bucket}/{key}"
         const val PARTS_PATH = "objects/{bucket}/{key}/parts"
         const val PARTS_ID_PATH = "objects/{bucket}/{key}/parts/{part}"
-        const val SET_QUOTA_PATH = "accounting/buckets/{bucket}/setquota"
-        const val LIST_BUCKET_PATH_METRICS = "accounting/buckets/list"
+        const val SET_QUOTA_PATH = "accounts/buckets/{bucket}/setquota"
+        const val LIST_BUCKET_PATH_METRICS = "accounts/buckets/list"
         const val REGISTER_PATH = "register"
         const val AUTHENTICATION_PATH = "auth"
     }
