@@ -1,8 +1,8 @@
-package ir.sls.stora.exception
+package com.github.idarabi.exception
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
-import ir.sls.stora.exception.StoraExceptionCodes.*
+import com.github.idarabi.exception.StoraExceptionCodes.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 open class StoraValidationException : StoraException {

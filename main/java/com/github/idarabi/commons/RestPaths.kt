@@ -1,4 +1,4 @@
-package commons
+package com.github.idarabi.commons
 
 class RestPaths {
     companion object {
@@ -12,9 +12,12 @@ class RestPaths {
         const val OBJECT_ID_PATH = "objects/{bucket}/{key}"
         const val PARTS_PATH = "objects/{bucket}/{key}/parts"
         const val PARTS_ID_PATH = "objects/{bucket}/{key}/parts/{part}"
-        const val SET_QUOTA_PATH = "accounting/buckets/{bucket}/setquota"
-        const val LIST_BUCKET_PATH_METRICS = "accounting/buckets/list"
+        const val SET_QUOTA_PATH = "accounts/buckets/{bucket}/setquota"
+        const val LIST_BUCKET_PATH_METRICS = "accounts/buckets/list"
+        const val BUCKET_PATH_METRICS = "accounts/buckets/{bucket}"
         const val REGISTER_PATH = "register"
         const val AUTHENTICATION_PATH = "auth"
+        const val ERROR_MESSAGE_KEY = "message"
+        const val ERROR_CODE_KEY = "errorCode"
     }
 }
