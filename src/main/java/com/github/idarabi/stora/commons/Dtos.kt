@@ -1,4 +1,4 @@
-package commons
+package com.github.idarabi.stora.commons
 
 import java.io.InputStream
 

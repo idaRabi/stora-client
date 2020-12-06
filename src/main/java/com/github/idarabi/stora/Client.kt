@@ -1,6 +1,7 @@
+package com.github.idarabi.stora
 
-import commons.*
-import ir.sls.stora.exception.StoraValidationException
+import com.github.idarabi.stora.exception.StoraValidationException
+import com.github.idarabi.stora.commons.*
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.Response

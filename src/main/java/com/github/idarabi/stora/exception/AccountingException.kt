@@ -1,6 +1,6 @@
-package ir.sls.stora.exception
+package com.github.idarabi.stora.exception
 
-import ir.sls.stora.exception.StoraExceptionCodes.*
+import com.github.idarabi.stora.exception.StoraExceptionCodes.*
 
 // TODO refactor exception hierarchy
 class CapacityExcitedException(bucket: String) :

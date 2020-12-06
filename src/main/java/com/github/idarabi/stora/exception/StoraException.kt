@@ -1,4 +1,5 @@
-package ir.sls.stora.exception
+package com.github.idarabi.stora.exception
+
 
 open class StoraException : Exception {
     constructor(message: String) : super(message)

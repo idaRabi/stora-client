@@ -1,7 +1,8 @@
+package com.github.idarabi.stora
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import commons.*
+import com.github.idarabi.stora.commons.*
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -12,7 +13,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.*
 import java.util.concurrent.TimeUnit
-
 
 val jacksonMapper: ObjectMapper = ObjectMapper().registerModule(KotlinModule())
 
