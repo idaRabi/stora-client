@@ -29,8 +29,11 @@ open class StoraValidationException : StoraException {
 
     companion object {
         private val objectMapper = ObjectMapper()
-        fun extractException(json: String, bucket: String, key: String, partNumber: Int?):
-                StoraValidationException {
+        fun extractException(json: String,
+                             bucket: String,
+                             key: String,
+                             partNumber: Int?,
+                             token: String?): StoraValidationException {
 
             val exp = objectMapper.readValue(json, StoraValidationException::class.java)
             return when (exp.errorCode) {
@@ -46,6 +49,10 @@ open class StoraValidationException : StoraException {
                 StoraExceptionCodes.DUPLICATE_OBJECT.code -> DuplicateKeyException(bucket, key)
                 StoraExceptionCodes.TRAFFIC_QUOTA_EXCITED.code -> TrafficQuotaExcitedException(bucket)
                 StoraExceptionCodes.CAPACITY_EXCITED.code -> CapacityExcitedException(bucket)
+                StoraExceptionCodes.TOKEN_INVALID.code -> InvalidTokenException(token!!)
+                StoraExceptionCodes.FORBIDDEN_OPERATION.code -> ForbiddenOperationException(token!!)
+                StoraExceptionCodes.EXPIRED_SUPERIOR_TOKEN.code -> ExpiredSuperiorTokenException(token!!)
+                StoraExceptionCodes.EXPIRED_CLIENT_TOKEN.code -> ExpiredClientTokenException(token!!)
                 //TODO handle exception which they need userId,token,....
                 else -> exp
             }

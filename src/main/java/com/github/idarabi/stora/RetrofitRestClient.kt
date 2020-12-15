@@ -85,6 +85,15 @@ interface RetrofitRestClient {
                        @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String,
                        @Body body: SetQuotaRequest): Call<SetQuotaResponse>
 
+    @POST(RestPaths.CLIENT_TOKEN_PATH)
+    fun clientToken(@Header("Authorization") token: String): Call<ClientToken>
+
+    @GET(RestPaths.BUCKET_PATH_METRICS)
+    fun bucketMetrics(@Header("Authorization") token: String,
+                      @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String): Call<BucketMetricsResponse>
+
+    @GET(RestPaths.LIST_BUCKET_PATH_METRICS)
+    fun listBucket(@Header("Authorization") token: String): Call<List<BucketMetricsResponse>>
 
     companion object {
         fun getClient(address: String): RetrofitRestClient {

@@ -60,10 +60,10 @@ class InvalidSizeException(bucket:String, key:String) :
                                  416,
                                  StoraExceptionCodes.INVALID_SIZE.code)
 
-class InvalidApiKeyException(apiKey: String) :
+class InvalidTokenException(apiKey: String) :
         StoraValidationException("Invalid API key:$apiKey",
                                  401,
-                                 StoraExceptionCodes.API_KEY_INVALID.code)
+                                 StoraExceptionCodes.TOKEN_INVALID.code)
 
 class InvalidChunkNumber(bucket: String, key: String, chunkNumber: Int) :
         StoraValidationException(
