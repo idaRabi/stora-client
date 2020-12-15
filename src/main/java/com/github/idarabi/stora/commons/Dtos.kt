@@ -45,3 +45,5 @@ data class Metrics(var usage: Long = 0,
                    var trafficQuota: Long = 0,
                    var numberOfFiles: Long = 0,
                    var capacity: Long = 0)
+
+data class ClientToken(val token: String)
