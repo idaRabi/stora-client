@@ -47,3 +47,7 @@ data class Metrics(var usage: Long = 0,
                    var capacity: Long = 0)
 
 data class ClientToken(val token: String)
+
+data class UpdateMetaRequest(val customMeta: String?)
+
+data class UpdateMetaResult(val bucket: String, val key: String)
