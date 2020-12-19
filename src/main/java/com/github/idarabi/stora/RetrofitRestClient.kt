@@ -95,6 +95,17 @@ interface RetrofitRestClient {
     @GET(RestPaths.LIST_BUCKET_PATH_METRICS)
     fun listBucket(@Header("Authorization") token: String): Call<List<BucketMetricsResponse>>
 
+    @PUT(RestPaths.META_ID_PATH)
+    fun updateMeta(@Header("Authorization") token: String,
+                   @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String,
+                   @Path(RestPaths.KEY_PATH_PARAM) key: String,
+                   @Body body: UpdateMetaRequest): Call<UpdateMetaResult>
+
+    @GET(RestPaths.META_ID_PATH)
+    fun getMeta(@Header("Authorization") token: String,
+                @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String,
+                @Path(RestPaths.KEY_PATH_PARAM) key: String): Call<MetaDto>
+
     companion object {
         fun getClient(address: String): RetrofitRestClient {
             val okHttpClient =

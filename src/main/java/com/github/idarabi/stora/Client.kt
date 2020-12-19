@@ -151,4 +151,23 @@ open class Client(address: String) {
             return@let it.body() ?: throw Exception("null listBucket body")
         }
     }
+
+    fun updateMeta(token: String, bucket: String, key: String,
+                   customMetaMap: MutableMap<String, String>): UpdateMetaResult {
+        var customMeta = ""
+        customMetaMap.forEach { customMeta += it.key + "=" + it.value + "," }
+        customMeta = customMeta.removeSuffix(",")
+        val updateMetaRequest = UpdateMetaRequest(customMeta)
+        return restClient.updateMeta(token, bucket, key, updateMetaRequest).execute().let {
+            checkForExceptions(it, token)
+            return@let it.body() ?: throw Exception("null updateMeta body")
+        }
+    }
+
+    fun getMeta(token: String, bucket: String, key: String): MetaDto {
+        return restClient.getMeta(token, bucket, key).execute().let {
+            checkForExceptions(it, token)
+            return@let it.body() ?: throw Exception("null getMeta body")
+        }
+    }
 }
