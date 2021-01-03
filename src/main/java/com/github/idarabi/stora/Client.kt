@@ -170,4 +170,12 @@ open class Client(address: String) {
             return@let it.body() ?: throw Exception("null getMeta body")
         }
     }
+
+    fun getListFiles(token: String, bucket: String): ListFiles {
+        return restClient.getListFiles(token, bucket).execute().let {
+            checkForExceptions(it, token)
+            return@let it.body() ?: throw Exception("null getListFiles body")
+        }
+    }
+
 }

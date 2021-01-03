@@ -19,5 +19,6 @@ class RestPaths {
         const val AUTHENTICATION_PATH = "auth"
         const val CLIENT_TOKEN_PATH = "auth/client"
         const val META_ID_PATH = "metas/{bucket}/{key}"
+        const val OBJECT_LIST_ID_PATH = "objects/{bucket}"
     }
 }
