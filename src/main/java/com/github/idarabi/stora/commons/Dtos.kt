@@ -51,3 +51,5 @@ data class ClientToken(val token: String)
 data class UpdateMetaRequest(val customMeta: String?)
 
 data class UpdateMetaResult(val bucket: String, val key: String)
+
+data class ListFiles(val bucket: String, val listFiles: List<String> = emptyList())

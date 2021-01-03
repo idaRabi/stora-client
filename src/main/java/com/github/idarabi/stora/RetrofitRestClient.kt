@@ -106,6 +106,10 @@ interface RetrofitRestClient {
                 @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String,
                 @Path(RestPaths.KEY_PATH_PARAM) key: String): Call<MetaDto>
 
+    @GET(RestPaths.OBJECT_LIST_ID_PATH)
+    fun getListFiles(@Header("Authorization") token: String,
+                     @Path(RestPaths.BUCKET_PATH_PARAM) bucket: String): Call<ListFiles>
+
     companion object {
         fun getClient(address: String): RetrofitRestClient {
             val okHttpClient =
