@@ -1,6 +1,7 @@
 package com.github.idarabi.stora.commons
 
 import java.io.InputStream
+import java.util.Collections.emptyList
 
 private fun nowSeconds() = (System.currentTimeMillis() / 1000)
 
@@ -52,4 +53,4 @@ data class UpdateMetaRequest(val customMeta: String?)
 
 data class UpdateMetaResult(val bucket: String, val key: String)
 
-data class ListFiles(val bucket: String, val listFiles: List<String> = emptyList())
+data class ListFiles(val bucket: String, val listFiles: List<String> = emptyList<String>(), val numberOfFiles: Long = 0)
