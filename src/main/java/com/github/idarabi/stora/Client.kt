@@ -1,5 +1,6 @@
 package com.github.idarabi.stora
 
+
 import com.github.idarabi.stora.commons.*
 import com.github.idarabi.stora.exception.ForbiddenOperationException
 import com.github.idarabi.stora.exception.StoraValidationException
@@ -23,13 +24,14 @@ open class Client(address: String) {
         }
     }
 
-    fun register(email: String, username: String, password: String) {
-        restClient.registerUser(RegisterRequest(email, username, password)).execute()
+    fun register(token: String, email: String, username: String, password: String) {
+        restClient.registerUser(token, RegisterRequest(email, username, password)).execute()
         //TODO by mahdi handle exception
     }
 
     fun login(username: String, password: String): LoginResponse? {
-        return restClient.createAuthenticationToken(LoginRequest(username, password)).execute().body()
+        return restClient.createAuthenticationToken(LoginRequest(username, password)).execute()
+                .body()
         //TODO by mahdi handle exception
     }
 
@@ -39,18 +41,22 @@ open class Client(address: String) {
         }
     }
 
-    fun completeMultipartUpload(token: String,
-                                bucket: String,
-                                key: String,
-                                contentType: String): UploadCompleteResult {
-        return restClient.completeMultiPart(token, bucket, key, contentType).execute().let {
+    fun finish(token: String,
+               bucket: String,
+               key: String,
+               contentType: String): UploadCompleteResult {
+        return restClient.finish(token, bucket, key, contentType).execute().let {
             checkForExceptions(it, token, bucket, key)
             return@let it.body() ?: error("Body is null: $bucket : $key")
         }
     }
 
     // FIXME: 11/14/20 send range query param
-    fun getObject(token: String, bucket: String, key: String, start: Long? = null, end: Long? = null): GetResult {
+    fun getObject(token: String,
+                  bucket: String,
+                  key: String,
+                  start: Long? = null,
+                  end: Long? = null): GetResult {
         if (start == null && end != null)
             throw IllegalArgumentException("start is null but end is not!")
 
@@ -73,6 +79,13 @@ open class Client(address: String) {
         }
     }
 
+    fun getInProgressFilesAdmin(token: String, username: String, bucket: String): Set<String> {
+        return restClient.getInProgressFilesAdmin(token, username, bucket).execute().let {
+            checkForExceptions(it, token, bucket)
+            return@let it.body()?.inProgressFiles ?: error("null getInProgressFilesAdmin body")
+        }
+    }
+
     fun listParts(token: String, bucket: String, key: String): Set<Int> {
         return restClient.listParts(token, bucket, key).execute().let {
             checkForExceptions(it, token, bucket, key)
@@ -80,7 +93,11 @@ open class Client(address: String) {
         }
     }
 
-    fun putObject(token: String, bucket: String, key: String, bytes: ByteArray, contentType: String) {
+    fun putObject(token: String,
+                  bucket: String,
+                  key: String,
+                  bytes: ByteArray,
+                  contentType: String) {
         val body = RequestBody.create(MediaType.get(contentType), bytes)
         restClient.putObject(token, bucket, key, body).execute().let {
             checkForExceptions(it, token, bucket, key)
@@ -100,8 +117,20 @@ open class Client(address: String) {
         }
     }
 
+    fun createBucketAdmin(token: String, username: String, bucket: String) {
+        restClient.createBucketAdmin(token, username, bucket).execute().let {
+            checkForExceptions(it, token, bucket)
+        }
+    }
+
     fun deleteBucket(token: String, bucket: String) {
         restClient.deleteBucket(token, bucket).execute().let {
+            checkForExceptions(it, token, bucket)
+        }
+    }
+
+    fun deleteBucketAdmin(token: String, username: String, bucket: String) {
+        restClient.deleteBucketAdmin(token, username, bucket).execute().let {
             checkForExceptions(it, token, bucket)
         }
     }
@@ -112,10 +141,15 @@ open class Client(address: String) {
         }
     }
 
-    fun setBucketQuota(token: String, bucket: String, capacity: Long = 100_000_000, trafficQuota: Long = 100_000_000) {
-        restClient.setBucketQuota(token, bucket, SetQuotaRequest(capacity, trafficQuota)).execute().let {
-            checkForExceptions(it, token, bucket)
-        }
+    fun setBucketQuota(token: String,
+                       username: String,
+                       bucket: String,
+                       capacity: Long = 100_000_000,
+                       trafficQuota: Long = 100_000_000) {
+        restClient.setBucketQuota(token, username, bucket, SetQuotaRequest(capacity, trafficQuota))
+                .execute().let {
+                    checkForExceptions(it, token, bucket)
+                }
     }
 
     fun bucketExists(token: String, bucket: String): Boolean {
@@ -131,7 +165,20 @@ open class Client(address: String) {
         }
     }
 
-    fun clientToken(token: String): ClientToken {
+    fun bucketExistsAdmin(token: String, username: String, bucket: String): Boolean {
+        return restClient.hasBucketAdmin(token, username, bucket).execute().let {
+            checkForExceptions(it, token, bucket)
+            when (it.code()) {
+                200 -> return@let true
+                404 -> return@let false
+                401 -> throw ForbiddenOperationException(token)
+                else -> throw Exception(
+                        "invalid status code for bucketExistsAdmin $bucket code: ${it.code()}")
+            }
+        }
+    }
+
+    fun clientToken(token: String): ClientTokenResponse {
         return restClient.clientToken(token).execute().let {
             checkForExceptions(it, token)
             return@let it.body() ?: throw Exception("null clientToken body")
@@ -145,10 +192,24 @@ open class Client(address: String) {
         }
     }
 
+    fun bucketMetricsAdmin(token: String, username: String, bucket: String): BucketMetricsResponse {
+        return restClient.bucketMetricsAdmin(token, username, bucket).execute().let {
+            checkForExceptions(it, token, bucket)
+            return@let it.body() ?: throw Exception("null bucketMetricsAdmin body")
+        }
+    }
+
     fun listBucket(token: String): List<BucketMetricsResponse> {
         return restClient.listBucket(token).execute().let {
             checkForExceptions(it, token)
             return@let it.body() ?: throw Exception("null listBucket body")
+        }
+    }
+
+    fun listBucketAdmin(token: String, username: String): List<BucketMetricsResponse> {
+        return restClient.listBucketAdmin(token, username).execute().let {
+            checkForExceptions(it, token)
+            return@let it.body() ?: throw Exception("null listBucketAdmin body")
         }
     }
 
@@ -178,4 +239,9 @@ open class Client(address: String) {
         }
     }
 
+    fun logout(token: String) {
+        restClient.logout(token).execute().let {
+            checkForExceptions(it, token)
+        }
+    }
 }

@@ -53,6 +53,7 @@ open class StoraValidationException : StoraException {
                 StoraExceptionCodes.FORBIDDEN_OPERATION.code -> ForbiddenOperationException(token!!)
                 StoraExceptionCodes.EXPIRED_SUPERIOR_TOKEN.code -> ExpiredSuperiorTokenException(token!!)
                 StoraExceptionCodes.EXPIRED_CLIENT_TOKEN.code -> ExpiredClientTokenException(token!!)
+                StoraExceptionCodes.CLIENT_TOKEN_NOT_FOUND.code -> ClientTokenNotFoundException()
                 //TODO handle exception which they need userId,token,....
                 else -> exp
             }

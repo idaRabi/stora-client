@@ -1,5 +1,6 @@
 package com.github.idarabi.stora.exception
 
+import com.github.idarabi.stora.exception.StoraExceptionCodes
 
 class BucketAlreadyExistsException(bucket: String) :
         StoraValidationException("Bucket already exists: $bucket", 409, StoraExceptionCodes.BUCKET_ALREADY_EXISTS.code)
@@ -71,3 +72,41 @@ class InvalidChunkNumber(bucket: String, key: String, chunkNumber: Int) :
                 400,
                 StoraExceptionCodes.INVALID_CHUNK_NUMBER.code)
 
+
+class InvalidCapacityException(capacity: Long) :
+        StoraValidationException("Capacity $capacity must be greater than zero.",
+                416,
+                StoraExceptionCodes.INVALID_CAPACITY.code)
+
+class InvalidTrafficQuotaException(quota: Long) :
+        StoraValidationException("quota $quota must be greater than zero.",
+                416,
+                StoraExceptionCodes.INVALID_TRAFFIC_QUOTA.code)
+
+class InvalidCredential(username: String):
+        StoraValidationException("Invalid username or password username:$username",
+                409,
+                StoraExceptionCodes.INVALID_CREDENTIALS.code)
+
+class UnAuthorizedUserException(userId: Long) :
+        StoraValidationException("UnAuthorized user. userId: $userId", 401, StoraExceptionCodes.UNAUTHORIZED_USER.code)
+
+class ForbiddenOperationException(token: String) :
+        StoraValidationException("Forbidden operation with current token: $token",
+                401,
+                StoraExceptionCodes.FORBIDDEN_OPERATION.code)
+
+class ExpiredSuperiorTokenException(token: String) :
+        StoraValidationException("Superior token has expired. token: $token",
+                401,
+                StoraExceptionCodes.EXPIRED_SUPERIOR_TOKEN.code)
+
+class ExpiredClientTokenException(token: String) :
+        StoraValidationException("Client token has expired. token: $token",
+                401,
+                StoraExceptionCodes.EXPIRED_CLIENT_TOKEN.code)
+
+class ClientTokenNotFoundException() :
+        StoraValidationException("Client token not found . ",
+                401,
+                StoraExceptionCodes.CLIENT_TOKEN_NOT_FOUND.code)
